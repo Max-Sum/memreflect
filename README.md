@@ -37,6 +37,6 @@ docker run --network=host -d -e MEMREFLECT_PORT=11211 --cap-add net_admin gzmaxs
 ```
 or
 ```
-docker run --network=host -d -e MEMREFLECT_PORT=11211 --privileage=true gzmaxsum/memreflect
+docker run --network=host -d -e MEMREFLECT_PORT=11211 --privileaged=true gzmaxsum/memreflect
 ```
 
