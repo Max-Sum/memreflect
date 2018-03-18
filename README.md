@@ -10,6 +10,7 @@ Therefor, TPROXY module and root permission is required.
 
 ### Arguments
 -p    The port memreflect listen on
+
 -s    Use shutdown instead of flush_all command
 
 ### Build and run
@@ -22,6 +23,7 @@ sudo ./memreflect -p 11211
 ## Docker
 ### Environment
 MEMREFLECT_PORT        The port memreflect listen on
+
 MEMREFLECT_SHUTDOWN    Use shutdown instead of flush_all command if set
 
 ### Run
