@@ -22,6 +22,7 @@ func main() {
 
 	s := flag.Bool("s", false, "Whether or not to shutdown the memcached server")
 	p := flag.Int("p", 11211, "The port to listen on")
+	flag.Parse()
 	// Setup iptables and ip route
 	defer shutdown()
 	if err := setup(*p); err != nil {
