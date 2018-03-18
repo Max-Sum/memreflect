@@ -1,11 +1,6 @@
-FROM golang:alpine
+FROM alpine
 MAINTAINER Max Sum <max@lolyculture.com>
 
 # Build app
-
-RUN apk add --no-cache git iptables \
-    && go get -t github.com/Max-Sum/memreflect/build \
-    && apk del git \
-    && go build -o memreflect github.com/Max-Sum/memreflect/build
-
+ADD memreflect
 CMD ["./memreflect", "-p", "${MEMREFLECT_PORT:-11211}", "${MEMREFLECT_SHUTDOWN:+-s}"]
