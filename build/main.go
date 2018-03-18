@@ -70,7 +70,7 @@ func setup(port int) error {
 		}
 	}
 	if err = ipt.AppendUnique("mangle", CHAIN, "-p", "udp", "--sport", "11211", "-j",
-		"TPROXY", "--on-port", PORT, "--tproxy-mark", "0x12/0x12"); err != nil {
+		"TPROXY", "--on-port", PORT, "--tproxy-mark", "0x1f"); err != nil {
 		return err
 	}
 	// append chain into prerouting and output
@@ -78,11 +78,11 @@ func setup(port int) error {
 		return err
 	}
 	// Set up route
-	out, err := exec.Command("ip", "rule", "add", "fwmark", "0x12/0x12", "table", "11211").CombinedOutput()
+	out, err := exec.Command("ip", "rule", "add", "fwmark", "0x1f", "table", "112").CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("%s: %s", err, out)
 	}
-	out, err = exec.Command("ip", "route", "add", "local", "0.0.0.0/0", "dev", "lo", "table", "11211").CombinedOutput()
+	out, err = exec.Command("ip", "route", "add", "local", "0.0.0.0/0", "dev", "lo", "table", "112").CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("%s: %s", err, out)
 	}
@@ -105,11 +105,11 @@ func shutdown() error {
 		log.Println(err)
 	}
 	// clear route
-	out, err := exec.Command("ip", "rule", "del", "table", "11211").CombinedOutput()
+	out, err := exec.Command("ip", "rule", "del", "table", "112").CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("%s: %s", err, out)
 	}
-	out, err = exec.Command("ip", "route", "flush", "table", "11211").CombinedOutput()
+	out, err = exec.Command("ip", "route", "flush", "table", "112").CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("%s: %s", err, out)
 	}
