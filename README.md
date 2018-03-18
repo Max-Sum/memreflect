@@ -21,13 +21,22 @@ sudo ./memreflect -p 11211
 ```
 
 ## Docker
+The program would set iptables and routing automantically, but you need to give the capability of net_admin to the docker.
+### Tags
+`latest` Contains program and source file
+`binary` Contains only binary of the program
+
 ### Environment
 MEMREFLECT_PORT        The port memreflect listen on
 
 MEMREFLECT_SHUTDOWN    Use shutdown instead of flush_all command if set
 
 ### Run
-The program would set iptables and routing automantically, but you need to give the capability of net_admin to the docker.
 ```
 docker run --network=host -d -e MEMREFLECT_PORT=11211 --cap-add net_admin gzmaxsum/memreflect
 ```
+or
+```
+docker run --network=host -d -e MEMREFLECT_PORT=11211 --privileage=true gzmaxsum/memreflect
+```
+
