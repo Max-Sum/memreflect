@@ -27,5 +27,5 @@ MEMREFLECT_SHUTDOWN    Use shutdown instead of flush_all command if set
 ### Run
 The program would set iptables and routing automantically, but you need to give the capability of net_admin to the docker.
 ```
-docker run --network=host -d -e MEMREFLECT_PORT=11211 --cap-add net_admin gzmaxsum/MemReflect
+docker run --network=host -d -e MEMREFLECT_PORT=11211 --cap-add net_admin gzmaxsum/memreflect
 ```
