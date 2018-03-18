@@ -8,4 +8,4 @@ RUN apk add --no-cache git iptables \
     && apk del git \
     && go build -o memreflect github.com/Max-Sum/memreflect/build
 
-CMD ["./memreflect", "-p", "$MEMREFLECT_PORT", "${MEMREFLECT_SHUTDOWN:+-s}"]
+CMD ["./memreflect", "-p", "${MEMREFLECT_PORT:-11211}", "${MEMREFLECT_SHUTDOWN:+-s}"]
