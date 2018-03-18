@@ -78,11 +78,13 @@ func setup(port int) error {
 		return err
 	}
 	// Set up route
-	if err = exec.Command("ip", "rule", "add", "fwmark", "0x1f/0x1f", "table", "11211").Run(); err != nil {
-		return err
+	out, err := exec.Command("ip", "rule", "add", "fwmark", "0x1f/0x1f", "table", "11211").CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%s: %s", err, out)
 	}
-	if err = exec.Command("ip", "route", "add", "local", "0.0.0.0/0", "dev", "lo", "table", "11211").Run(); err != nil {
-		return err
+	out, err = exec.Command("ip", "route", "add", "local", "0.0.0.0/0", "dev", "lo", "table", "11211").CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%s: %s", err, out)
 	}
 	return nil
 }
@@ -103,11 +105,13 @@ func shutdown() error {
 		log.Println(err)
 	}
 	// clear route
-	if err = exec.Command("ip", "rule", "del", "table", "11211").Run(); err != nil {
-		log.Println(err)
+	out, err := exec.Command("ip", "rule", "del", "table", "11211").CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%s: %s", err, out)
 	}
-	if err = exec.Command("ip", "route", "flush", "table", "11211").Run(); err != nil {
-		log.Println(err)
+	out, err = exec.Command("ip", "route", "flush", "table", "11211").CombinedOutput()
+	if err != nil {
+		return fmt.Errorf("%s: %s", err, out)
 	}
 	return err
 }
