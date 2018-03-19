@@ -1,17 +1,18 @@
 # MemReflect
 MemReflect is another implementation on the Memcached killswitch.
 Unlike [Memfixed](https://github.com/649/Memfixed-Mitigation-Tool), which uses an active mitigation model, this one uses a passive model.
-It sends back killswitch after receiving any UDP packet from 11211 port. This could kill the unknown vulnerable memcached servers.
-Your server might be flooded before you send few killswitch, but it does help killing some servers.
+It sends back killswitch after receiving any UDP packet from 11211 port. This could mitigate the unknown vulnerable memcached servers.
+Note: Some server does not support shutdown command, so there's no way to prevent them from being used anyway.
+However by using flush_all, the amplify rate is limited.
 
 ## Usage
 The program automantically sets iptables and routing to receive UDP packets from 11211.
-Therefor, TPROXY module and root permission is required.
+TPROXY module and root permission is required.
 
 ### Arguments
--p    The port memreflect listen on
+-p    The port memreflect listen on (Can be any port rather than 11211)
 
--s    Use shutdown instead of flush_all command
+-s    Use shutdown together with flush_all command
 
 ### Build and run
 ```
@@ -29,7 +30,7 @@ The program would set iptables and routing automantically, but you need to give 
 ### Environment
 MEMREFLECT_PORT        The port memreflect listen on
 
-MEMREFLECT_SHUTDOWN    Use shutdown instead of flush_all command if set
+MEMREFLECT_SHUTDOWN    Use shutdown together with flush_all command if set
 
 ### Run
 ```
