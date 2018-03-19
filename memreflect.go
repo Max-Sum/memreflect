@@ -5,22 +5,23 @@ package memreflect
 import (
 	"log"
 	"net"
+
 	tproxy "github.com/LiamHaworth/go-tproxy"
 )
 
-// MemReflect reflect a kill switch to 
+// MemReflect reflect a kill switch to
 // the affected memcached server. Mitigating
 // the effect for DRDoS.
 type MemReflect struct {
 	ln       *net.UDPConn // the listener
-	Port 	 int  // The port to listen on
-	Shutdown bool // Whether or not to shutdown the server
+	Port     int          // The port to listen on
+	Shutdown bool         // Whether or not to shutdown the server
 }
 
 // ListenAndServe on a port to reflect command
 func ListenAndServe(port int, shutdown bool) error {
 	m := MemReflect{
-		Port: port,
+		Port:     port,
 		Shutdown: shutdown,
 	}
 	return m.ListenAndServe()
@@ -42,7 +43,7 @@ func (m *MemReflect) ListenAndServe() error {
 
 func (m *MemReflect) listenUDP() error {
 	for {
-		buff := make([]byte, 1024)
+		buff := make([]byte, 1500)
 		_, srcAddr, dstAddr, err := tproxy.ReadFromUDP(m.ln, buff)
 		if err != nil {
 			if netErr, ok := err.(net.Error); ok && netErr.Temporary() {
@@ -76,7 +77,7 @@ func (m *MemReflect) killMemcached(srcAddr, dstAddr *net.UDPAddr) {
 
 func (m *MemReflect) killCommand() []byte {
 	if m.Shutdown {
-		return []byte("\x00\x00\x00\x00\x00\x01\x00\x00shutdown\r\n")
+		return []byte("\x00\x00\x00\x00\x00\x01\x00\x00flush_all\r\nshutdown\r\n")
 	}
 	return []byte("\x00\x00\x00\x00\x00\x01\x00\x00flush_all\r\n")
 }
